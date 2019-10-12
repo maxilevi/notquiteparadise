@@ -1,4 +1,5 @@
 import pygame
+import pyglet
 
 
 class Panel:
@@ -24,9 +25,7 @@ class Panel:
         self.height = height
         self.border_size = border_size
         self.background_colour = background_colour
-        self.surface = pygame.Surface((self.width, self.height))
         self.border_colour = border_colour
-        self.rect = pygame.rect.Rect(x, y, width, height)
         self.centre = (width / 2, height / 2)
 
     def draw_background(self):
@@ -48,3 +47,22 @@ class Panel:
             pygame.draw.rect(self.surface, self.border_colour,  [0, 0, self.width, self.height],
                              self.border_size)
 
+
+class RenderArea:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.sprites = []
+
+    def add(self, image, x, y):
+        self.sprites.append(pyglet.sprite.Sprite(image, x=self.x + x, y=self.y + y))
+
+#  HAS BATCH
+# class RenderArea:
+#     def __init__(self, x, y):
+#         self.x = x
+#         self.y = y
+#         self.sprites = []
+#
+#     def add(self, image, x, y, batch):
+#         self.sprites.append(pyglet.sprite.Sprite(image, x=self.x + x, self.y + y, batch=batch))

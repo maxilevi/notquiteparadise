@@ -3,7 +3,7 @@ from typing import Tuple
 
 import pygame
 
-from scripts.core.constants import UIElementTypes, SkillShapes
+from scripts.core.constants import UIElementTypes, SkillShapes, VisualInfo, TILE_SIZE
 from scripts.global_singletons.data_library import library
 from scripts.ui_elements.camera import Camera
 from scripts.ui_elements.entity_info import SelectedEntityInfo
@@ -26,6 +26,7 @@ class ElementMethods:
         self.manager = manager  # type: UIManager
 
         self.elements = {}  # list of all init'd ui elements
+
 
     def init_message_log(self):
         """
@@ -87,19 +88,38 @@ class ElementMethods:
         """
         # TODO - add handling for dirty
 
-        surface = self.manager.Display.get_main_surface()
+        import pyglet
+        label = pyglet.text.Label(text="Working")
+        label.draw()
 
-        for key, element in self.elements.items():
-            if element.is_visible:
-                element.draw(surface)
+        panel_width = int((VisualInfo.BASE_WINDOW_WIDTH / 4) * 3)
+        panel_height = int(VisualInfo.BASE_WINDOW_HEIGHT / 2)
+        from scripts.ui_elements.templates.panel import RenderArea
+        panel = RenderArea(0, 0)
+        image = pyglet.resource.image("actor/placeholder/Mobs_skeleton_06.png")
+        image.scale = ((TILE_SIZE / image.height), (TILE_SIZE / image.width))
+        image.width = TILE_SIZE
+        image.height = TILE_SIZE
 
-        # resize the surface to the desired resolution
-        scaled_surface = pygame.transform.scale(surface, self.manager.Display.get_desired_resolution())
-        window = self.manager.Display.get_window()
-        window.blit(scaled_surface, (0, 0))
+        panel.add(image, 0, 0)
 
-        # update the display
-        pygame.display.flip()  # make sure to do this as the last drawing element in a frame
+        for sprite in panel.sprites:
+            sprite.draw()
+
+
+        # surface = self.manager.Display.get_main_surface()
+        #
+        # for key, element in self.elements.items():
+        #     if element.is_visible:
+        #         element.draw(surface)
+        #
+        # # resize the surface to the desired resolution
+        # scaled_surface = pygame.transform.scale(surface, self.manager.Display.get_desired_resolution())
+        # window = self.manager.Display.get_window()
+        # window.blit(scaled_surface, (0, 0))
+        #
+        # # update the display
+        # pygame.display.flip()  # make sure to do this as the last drawing element in a frame
 
     def set_selected_entity(self, entity):
         """

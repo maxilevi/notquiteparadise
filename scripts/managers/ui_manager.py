@@ -33,9 +33,7 @@ class UIManager:
         """
 
 
-def example_code():
-    pass
-
+# EXAMPLE CODE
 # button  from pygame tutorial
 # class ui_Button:
 #

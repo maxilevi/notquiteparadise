@@ -4,10 +4,12 @@ import io
 import logging
 import pstats
 import pygame
+import pyglet
+from pyglet.window import FPSDisplay
 
 from scripts.core.constants import GameStates
 from scripts.global_singletons.managers import world_manager, game_manager, turn_manager, ui_manager, debug_manager, \
-    input_manager, start
+    input_manager
 from scripts.global_singletons.event_hub import event_hub
 from scripts.core.initialisers import initialise_game, initialise_event_handlers, initialise_logging, \
     initialise_ui_elements
@@ -44,21 +46,63 @@ def main():
     profiler = cProfile.Profile()
     profiler.enable()
 
-    #################################################
-    # alternate approach to init the managers
-    # TODO - determine if alternate approach is worthwhile
-    start()
-    from scripts.global_singletons import managers
-    managers.game_manager2.update_game_state(GameStates.PLAYER_TURN)
-    #################################################
-
     # initialise the game
-    initialise_ui_elements()
-    initialise_event_handlers()
-    initialise_game()
+    #initialise_ui_elements()
+    #initialise_event_handlers()
+    #initialise_game()
 
     # run the game
-    game_loop()
+    #game_loop()
+
+
+    window = ui_manager.Display.get_window()
+    fps_display = FPSDisplay(window)
+
+    # Set up window events
+    @window.event
+    def on_draw():
+        window.clear()
+        ui_manager.Element.draw_visible_elements()
+        fps_display.draw()  # TODO - move to debug
+
+    @window.event
+    def on_mouse_press(x, y, button, modifiers):
+        print(f"{button} pressed at ({x},{y})")
+        # input_manager
+
+    @window.event
+    def on_key_press(symbol, modifiers):
+        print(f"{symbol} was pressed.")
+        # input_manager
+
+    @window.event
+    def on_key_release(symbol, modifiers):
+        pass
+        # input manager
+
+    @window.event
+    def on_mouse_scroll(x, y, scroll_x, scroll_y):
+        print(f"Mouse scrolled {scroll_y} click.")
+
+    # set up the scheduled update
+    def update(dt):
+        pass
+        # input_manager.update()
+        # game_manager.update()
+        # debug_manager.update()
+        # world_manager.update()
+        # ui_manager.update()
+        # event_hub.update()
+        # turn_manager.turn_holder.ai.take_turn() # TODO - move to event
+
+    # All events received on the window to be printed to the console
+    window.push_handlers(pyglet.window.event.WindowEventLogger())
+
+    # Update the game 120 times per second
+    pyglet.clock.schedule_interval(update, 1 / 120.0)
+
+    # enter app loop, exit when all windows closed
+    pyglet.app.run()
 
     # we've left the game loop so now close everything down
     profiler.disable()
@@ -93,6 +137,7 @@ def game_loop():
         ui_manager.Element.draw_visible_elements()
 
 
+# TODO - move to debug manager
 def dump_profiling_data(profiler):
     """
     End profiling
