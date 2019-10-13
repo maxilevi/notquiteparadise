@@ -1,7 +1,7 @@
+
 import logging
 
 from scripts.core.constants import UIElementTypes, ICON_IN_TEXT_SIZE
-from scripts.core.fonts import Font
 
 
 class MessageMethods:

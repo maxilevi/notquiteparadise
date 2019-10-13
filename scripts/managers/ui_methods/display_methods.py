@@ -42,7 +42,8 @@ class DisplayMethods:
         return window
 
     def init_resource_config(self):
-        pyglet.resource.path = ["C:/Users/Gabriel/Documents/NotQuiteParadise/assets"]
+        pyglet.resource.path = ["C:/Users/Gabriel/Documents/NotQuiteParadise/assets",
+            "C:/Users/Gabriel/Documents/NotQuiteParadise/assets/actor"]
         pyglet.resource.reindex()
 
     def get_screen_scaling_mod(self):

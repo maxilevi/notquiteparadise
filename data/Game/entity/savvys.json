@@ -11,7 +11,7 @@
             {
                 "name": "basic attack",
                 "description": "This is the basic attack. It does damage.",
-                "icon": "placeholder/icon_00.png",
+                "icon": "skills/placeholder/icon_00.png",
                 "required_tags": ["other_entity"],
                 "range": 1,
                 "shape": "target",
@@ -37,7 +37,7 @@
             {
                 "name": "throw dice",
                 "description": "Time to throw the dice. It does damage.",
-                "icon": "placeholder/icon_29.png",
+                "icon": "skills/placeholder/icon_29.png",
                 "required_tags": [
                     "other_entity"
                 ],
@@ -66,7 +66,7 @@
             {
                 "name": "bring down the mountain",
                 "description": "Turn a wall into a floor.",
-                "icon": "placeholder/icon_40.png",
+                "icon": "skills/placeholder/icon_40.png",
                 "required_tags": [
                     "wall",
                     "no_entity"
@@ -92,7 +92,7 @@
             {
                 "name": "burn the deck",
                 "description": "Apply burning affliction",
-                "icon": "placeholder/icon_05.png",
+                "icon": "skills/placeholder/icon_05.png",
                 "required_tags": [
                     "other_entity"
                 ],
@@ -142,7 +142,7 @@
             {
                 "name": "Flail",
                 "description": "Fungechists are not known for their physical prowess but you haven't got much choice.",
-                "icon": "placeholder/icon_00.png",
+                "icon": "skills/placeholder/icon_00.png",
                 "required_tags": ["other_entity"],
                 "range": 1,
                 "shape": "target",
@@ -169,7 +169,7 @@
             {
                 "name": "Eye-watering Mistake",
                 "description": "Use all your sneakiness to irritate your enemies.",
-                "icon": "placeholder/icon_37.png",
+                "icon": "skills/placeholder/icon_37.png",
                 "required_tags": [
                     "other_entity"
                 ],
@@ -209,7 +209,7 @@
             {
                 "name": "Fractious Fungi",
                 "description": "Hurl a dried toadstool and watch it leave a gift that keeps on giving.",
-                "icon": "placeholder/icon_40.png",
+                "icon": "skills/placeholder/icon_40.png",
                 "required_tags": [
                     "other_entity"
                 ],

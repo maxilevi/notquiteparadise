@@ -32,6 +32,7 @@ from scripts.core.initialisers import initialise_game, initialise_event_handlers
 # TODO - use seed for RNG
 # TODO - new lighting system
 #  entities create light, sight range shows light in range
+# TODO - stats json needs icons assigning
 
 
 def main():
@@ -46,17 +47,26 @@ def main():
     profiler = cProfile.Profile()
     profiler.enable()
 
-    # initialise the game
+    # **** setting up during migration
     ui_manager.Element.init_camera()
     ui_manager.Element.set_element_visibility(UIElementTypes.CAMERA, True)
     ui_manager.Element.init_entity_queue()
     ui_manager.Element.set_element_visibility(UIElementTypes.ENTITY_QUEUE, True)
+    ui_manager.Element.init_skill_bar()
+    ui_manager.Element.set_element_visibility(UIElementTypes.SKILL_BAR, True)
+    ui_manager.Element.init_message_log()
+    ui_manager.Element.set_element_visibility(UIElementTypes.MESSAGE_LOG, True)
+
+    # initialise the game
     #initialise_ui_elements()
     initialise_event_handlers()
     initialise_game()
+
+    # *** during migration only
     ui_manager.Element.update_cameras_tiles_to_draw()
     turn_manager.build_new_turn_queue()
     ui_manager.Element.update_entity_queue()
+    ui_manager.Element.update_skill_bar()
 
     # run the game
     #game_loop()
@@ -92,13 +102,12 @@ def main():
 
     # set up the scheduled update
     def update(dt):
-        pass
         # input_manager.update()
         # game_manager.update()
         # debug_manager.update()
         # world_manager.update()
         # ui_manager.update()
-        # event_hub.update()
+        event_hub.update()
         # turn_manager.turn_holder.ai.take_turn() # TODO - move to event
 
     # All events received on the window to be printed to the console

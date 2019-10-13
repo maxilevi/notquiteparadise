@@ -1,7 +1,6 @@
 
 import logging
 
-import pygame
 from typing import Tuple
 
 import pyglet
@@ -14,6 +13,7 @@ from scripts.ui_elements.entity_queue import EntityQueue
 from scripts.ui_elements.message_log import MessageLog
 from scripts.ui_elements.skill_bar import SkillBar
 from scripts.ui_elements.targeting_overlay import TargetingOverlay
+from scripts.world.entity import Entity
 
 
 class ElementMethods:
@@ -206,11 +206,10 @@ class ElementMethods:
 
             targeting_overlay.tiles_in_skill_effect_range = effected_tiles
 
-    def update_skill_bars_icons(self):
+    def update_skill_bar(self):
         """
-        Get the player`s known skills to show in the skill bar.
+        Get the player`s known skills to show in the skill bar, up to max skills shown in bar.
         """
-        # TODO - convert to a set and set via en event
         skill_bar = self.get_ui_element(UIElementTypes.SKILL_BAR)
 
         # update info
@@ -219,19 +218,46 @@ class ElementMethods:
 
         # if the player has been init'd update skill bar
         if player:
+            skills = []
+
             for counter, skill in enumerate(player.actor.known_skills):
+                if counter <= skill_bar.max_skills_in_bar:
+                    skills.append(skill)
 
-                skill_data = library.get_skill_data(skill.skill_tree_name, skill.name)
-                skill_icon = pygame.image.load("assets/skills/" + skill_data.icon).convert_alpha()
+            self.set_skills_in_skill_bar(skills)
 
-                # catch any images not the right size and resize them
-                if skill_icon.get_size() != (skill_bar.skill_icon_size, skill_bar.skill_icon_size):
-                    icon = pygame.transform.smoothscale(skill_icon, (skill_bar.skill_icon_size,
-                            skill_bar.skill_icon_size))
-                else:
-                    icon = skill_icon
+    def set_skills_in_skill_bar(self, skills_to_draw: list):
+        """
+        Set the skills to be drawn on the skill bar
 
-                skill_bar.skill_containers[counter].skill_icon = icon
+        Args:
+            skills_to_draw ():
+        """
+        skill_bar = self.get_ui_element(UIElementTypes.SKILL_BAR)
+        render_area = skill_bar.render_area
+        size_x = skill_bar.skill_size_x
+        size_y = skill_bar.skill_size_y
+        gap = skill_bar.gap_between_skill_icons
+
+        # clear existing
+        skill_bar.skills_to_draw = []
+        skill_bar.skills_to_draw = skills_to_draw
+
+        # starting draw positions for skills, relative to render area
+        draw_x = int((skill_bar.render_area.width / 2) - (size_x / 2))
+        draw_y = -size_y
+
+        for skill in skills_to_draw:
+            # add skill icon
+            data = library.get_skill_data(skill.skill_tree_name, skill.name)
+            image = pyglet.resource.image(data.icon)
+            render_area.add_image(image, draw_x, draw_y, size_x, size_y)
+
+            # add skill name
+            render_area.add_text(skill.name, draw_x, draw_y)
+
+            # increment draw position
+            draw_y -= size_y + gap
 
     def update_entity_queue(self):
         """
@@ -255,7 +281,7 @@ class ElementMethods:
 
         self.set_entities_in_entity_queue(entities_to_draw)
 
-    def set_entities_in_entity_queue(self, entities_to_draw):
+    def set_entities_in_entity_queue(self, entities_to_draw: list):
         """
         Set the entities to draw in the entity queue.
 

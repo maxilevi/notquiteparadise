@@ -10,4 +10,4 @@ class Floor(Terrain):
         super().__init__()
         self.name = "floor tile"
         import pyglet
-        self.sprite = pyglet.resource.image("world/placeholder/_test.png")
+        self.sprite = pyglet.resource.image("world/placeholder/_test.png") # TODO - amend to hold in library

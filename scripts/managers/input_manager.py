@@ -198,7 +198,7 @@ class InputManager:
         if self.input_values["refresh_data"]:
             library.refresh_library_data()
             from scripts.global_singletons.managers import ui_manager
-            ui_manager.Element.update_skill_bars_icons()
+            ui_manager.Element.update_skill_bar()
             publisher.publish(MessageEvent(MessageEventTypes.SYSTEM, "#col.info ~~External #col.info data #col.info "
                                                                      "reloaded~~"))
 

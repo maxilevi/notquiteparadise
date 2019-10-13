@@ -55,7 +55,7 @@ class UiHandler(Subscriber):
 
             # update UI based on entity action taken
             if event.event_type == EntityEventTypes.LEARN:
-                ui_manager.Element.update_skill_bars_icons()
+                ui_manager.Element.update_skill_bar()
             elif event.event_type == EntityEventTypes.DIE:
                 ui_manager.Element.update_entity_queue()
             elif event.event_type == EntityEventTypes.MOVE:

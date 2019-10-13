@@ -1,8 +1,8 @@
-
 from enum import Enum, auto
 
 TILE_SIZE = 64
 ICON_IN_TEXT_SIZE = 16
+
 
 class VisualInfo:
     """
@@ -22,7 +22,11 @@ class FOVInfo:
     LIGHT_WALLS = True
     FOV_ALGORITHM = 0
 
+
 class RenderOrder(Enum):
+    """
+    Render order for sprites
+    """
     BACKGROUND = 0
     TERRAIN = 1
     ENTITY = 2
@@ -67,7 +71,6 @@ class GameEventTypes(Enum):
     END_TURN = auto()  # end of turn
     CHANGE_GAME_STATE = auto()  # move from one game state to another
     END_ROUND = auto()  # end of round
-
 
     def __eq__(self, other):
         if other.__class__ is self.__class__:

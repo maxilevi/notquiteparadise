@@ -73,10 +73,10 @@ def initialise_game():
     # # publisher.publish(LearnEvent(world_manager.player, "cleromancer", "throw dice"))
     # # publisher.publish(LearnEvent(world_manager.player, "cleromancer", "bring down the mountain"))
     # # publisher.publish(LearnEvent(world_manager.player, "cleromancer", "burn the deck"))
-    # publisher.publish(LearnEvent(world_manager.player, "Fungechist", "Flail"))
-    # publisher.publish(LearnEvent(world_manager.player, "Fungechist", "Eye-watering Mistake"))
-    # publisher.publish(LearnEvent(world_manager.player, "Fungechist", "Fractious Fungi"))
-    #
+    publisher.publish(LearnEvent(world_manager.player, "Fungechist", "Flail"))
+    publisher.publish(LearnEvent(world_manager.player, "Fungechist", "Eye-watering Mistake"))
+    publisher.publish(LearnEvent(world_manager.player, "Fungechist", "Fractious Fungi"))
+
     publisher.publish(ChangeGameStateEvent(GameStates.GAME_INITIALISING))
     turn_manager.turn_holder = world_manager.player
     #
