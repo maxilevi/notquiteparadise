@@ -92,35 +92,6 @@ class ElementMethods:
             if element.is_visible:
                 element.new_draw()
 
-        # import pyglet
-        # label = pyglet.text.Label(text="Working")
-        # label.draw()
-        #
-        # panel_width = int((VisualInfo.BASE_WINDOW_WIDTH / 4) * 3)
-        # panel_height = VisualInfo.BASE_WINDOW_HEIGHT#int(VisualInfo.BASE_WINDOW_HEIGHT / 2)
-        # from scripts.ui_elements.templates.panel import RenderArea
-        # panel = RenderArea(0, 0, panel_width, panel_height)
-        # image = pyglet.resource.image("actor/placeholder/Mobs_skeleton_06.png")
-        #
-        # panel.add(image, 0, 0, TILE_SIZE, TILE_SIZE)
-        #
-        # panel.batch.draw()
-
-
-        # surface = self.manager.Display.get_main_surface()
-        #
-        # for key, element in self.elements.items():
-        #     if element.is_visible:
-        #         element.draw(surface)
-        #
-        # # resize the surface to the desired resolution
-        # scaled_surface = pygame.transform.scale(surface, self.manager.Display.get_desired_resolution())
-        # window = self.manager.Display.get_window()
-        # window.blit(scaled_surface, (0, 0))
-        #
-        # # update the display
-        # pygame.display.flip()  # make sure to do this as the last drawing element in a frame
-
     def set_selected_entity(self, entity):
         """
         Set the selected entity

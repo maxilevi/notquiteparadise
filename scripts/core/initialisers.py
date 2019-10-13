@@ -63,11 +63,11 @@ def initialise_game():
     player = world_manager.Entity.get_player()
     world_manager.FOV.recompute_player_fov(player.x, player.y, player.sight_range)
 
-    # world_manager.Entity.create_actor_entity(0, 3, "goblinn_hand", "steve")
-    # world_manager.Entity.create_actor_entity(1, 4, "goblinn_hand", "bob")
-    # world_manager.Entity.create_actor_entity(2, 3, "goblinn_hand", "estaban")
-    # world_manager.God.create_god("the small gods")
-    #
+    world_manager.Entity.create_actor_entity(0, 3, "goblinn_hand", "steve")
+    world_manager.Entity.create_actor_entity(1, 4, "goblinn_hand", "bob")
+    world_manager.Entity.create_actor_entity(2, 3, "goblinn_hand", "estaban")
+    world_manager.God.create_god("the small gods")
+
     # # TODO - remove when skill learning is in
     # # publisher.publish(LearnEvent(world_manager.player, "cleromancer", "basic attack"))
     # # publisher.publish(LearnEvent(world_manager.player, "cleromancer", "throw dice"))

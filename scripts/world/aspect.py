@@ -27,11 +27,8 @@ class Aspect:
         self.blocks_movement = data.blocks_movement
         self.blocks_sight = data.blocks_sight
 
-        import pygame
-        self.sprite = pygame.image.load("assets/world/" + data.sprite).convert_alpha()
-        # catch any images not resized and resize them
-        if self.sprite.get_size() != (TILE_SIZE, TILE_SIZE):
-            self.sprite = pygame.transform.scale(self.sprite, (TILE_SIZE, TILE_SIZE))
+        import pyglet
+        self.sprite = pyglet.resource.image("world/" + data.sprite)
 
     @property
     def x(self):

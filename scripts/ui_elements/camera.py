@@ -58,12 +58,15 @@ class Camera:
             draw_x = x_pos * TILE_SIZE
             draw_y = y_pos * TILE_SIZE
 
-            if tile.is_wall:
-                terrain_image = pyglet.resource.image("world/placeholder/_testWall.png")
-                self.panel.add(terrain_image, draw_x, draw_y, TILE_SIZE, TILE_SIZE)
-            elif tile.is_floor:
-                terrain_image = pyglet.resource.image("world/placeholder/_test.png")
-                self.panel.add(terrain_image, draw_x, draw_y, TILE_SIZE, TILE_SIZE)
+            if tile.terrain:
+                self.panel.add(tile.terrain.sprite, draw_x, draw_y, TILE_SIZE, TILE_SIZE)
+
+            if tile.entity:
+                self.panel.add(tile.entity.icon, draw_x, draw_y, TILE_SIZE, TILE_SIZE)
+
+            if tile.aspects:
+                for key, aspect in tile.aspects.items():
+                    self.panel.add(aspect.sprite, draw_x, draw_y, TILE_SIZE, TILE_SIZE)
 
             y_pos -= 1
 
