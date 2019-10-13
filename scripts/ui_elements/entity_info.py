@@ -5,12 +5,12 @@ from scripts.ui_elements.colours import Colour
 from scripts.ui_elements.palette import Palette
 from scripts.core.constants import VisualInfo, SecondaryStatTypes, PrimaryStatTypes
 from scripts.core.fonts import Font
-from scripts.ui_elements.templates.panel import Panel
+from scripts.ui_elements.templates.render_area import RenderArea
 
 
 class SelectedEntityInfo:
     """
-    Handle the information for the selected entity and the associated panel
+    Handle the information for the selected entity and the associated render_area
     """
     def __init__(self):
         self.selected_entity = None
@@ -18,7 +18,7 @@ class SelectedEntityInfo:
         self.gap_between_lines = int(font_size / 3)
         self.is_visible = False
 
-        # panel info
+        # render_area info
         palette = Palette().entity_info
         panel_width = int((VisualInfo.BASE_WINDOW_WIDTH / 4) * 1)
         panel_height = int(VisualInfo.BASE_WINDOW_HEIGHT / 2)
@@ -27,8 +27,8 @@ class SelectedEntityInfo:
         panel_border = 2
         panel_background_colour = palette.background
         panel_border_colour = palette.border
-        self.panel = Panel(panel_x, panel_y, panel_width, panel_height, panel_background_colour, panel_border,
-                           panel_border_colour)
+        self.panel = RenderArea(panel_x, panel_y, panel_width, panel_height, panel_background_colour, panel_border,
+                                panel_border_colour)
 
         logging.debug(f"EntityInfo initialised.")
 
@@ -40,7 +40,7 @@ class SelectedEntityInfo:
             surface (Surface): Surface to draw to
 
         """
-        # panel background
+        # render_area background
         self.panel.draw_background()
 
         # entity info
@@ -168,7 +168,7 @@ class SelectedEntityInfo:
                 font.render_to(panel_surface, (column_two_x, adjusted_y), text, font_colour)
                 adjusted_y += font_size + self.gap_between_lines
 
-        # panel border
+        # render_area border
         self.panel.draw_border()
 
         # draw all to provided surface

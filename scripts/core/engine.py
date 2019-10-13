@@ -49,10 +49,14 @@ def main():
     # initialise the game
     ui_manager.Element.init_camera()
     ui_manager.Element.set_element_visibility(UIElementTypes.CAMERA, True)
+    ui_manager.Element.init_entity_queue()
+    ui_manager.Element.set_element_visibility(UIElementTypes.ENTITY_QUEUE, True)
     #initialise_ui_elements()
     initialise_event_handlers()
     initialise_game()
     ui_manager.Element.update_cameras_tiles_to_draw()
+    turn_manager.build_new_turn_queue()
+    ui_manager.Element.update_entity_queue()
 
     # run the game
     #game_loop()

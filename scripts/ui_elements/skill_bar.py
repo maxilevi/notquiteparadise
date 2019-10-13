@@ -6,7 +6,7 @@ from scripts.global_singletons.data_library import library
 from scripts.ui_elements.palette import Palette
 from scripts.core.constants import VisualInfo
 from scripts.core.fonts import Font
-from scripts.ui_elements.templates.panel import Panel
+from scripts.ui_elements.templates.render_area import RenderArea
 from scripts.ui_elements.templates.skill_container import SkillContainer
 
 
@@ -21,7 +21,7 @@ class SkillBar:
         self.skill_icon_size = 64
         self.is_visible = False
 
-        # panel info
+        # render_area info
         panel_width = int(self.skill_icon_size * 1.5)
         panel_height = int(VisualInfo.BASE_WINDOW_HEIGHT / 2)
         panel_x = VisualInfo.BASE_WINDOW_WIDTH - panel_width
@@ -31,8 +31,8 @@ class SkillBar:
         palette = ui_manager.Palette.skill_bar
         panel_background_colour = palette.background
         panel_border_colour = palette.border
-        self.panel = Panel(panel_x, panel_y, panel_width, panel_height, panel_background_colour, panel_border,
-                           panel_border_colour)
+        self.panel = RenderArea(panel_x, panel_y, panel_width, panel_height, panel_background_colour, panel_border,
+                                panel_border_colour)
 
         # init the containers
         # TODO - separate to own function
@@ -70,19 +70,19 @@ class SkillBar:
         """
         panel_surface = self.panel.surface
 
-        # panel background
+        # render_area background
         self.panel.draw_background()
 
         # skill containers
         for container in self.skill_containers:
-            # draw the panel as normal then move to the panel surface
+            # draw the render_area as normal then move to the render_area surface
             container.draw_background()
             container.draw_border()
             container.draw_skill_icon()
             container.draw_skill_key()
             container.draw_self_on_other_surface(panel_surface)
 
-        # panel border
+        # render_area border
         self.panel.draw_border()
 
         # draw everything to the passed in surface

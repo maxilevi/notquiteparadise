@@ -52,14 +52,14 @@ class MouseMethods:
 
     def get_colliding_panel(self, mouse_x=-1, mouse_y=-1):
         """
-        Determine which panel is colliding with  mouse position. Current position used if one not provided.
+        Determine which render_area is colliding with  mouse position. Current position used if one not provided.
 
         Args:
             mouse_x(int): Optional. Mouses x coord
             mouse_y(int):  Optional. Mouses y coord.
 
         Returns:
-            rect: ui_element's panel
+            rect: ui_element's render_area
         """
         colliding_panel = None
 
@@ -71,7 +71,7 @@ class MouseMethods:
 
         ui_elements = self.manager.Element.get_ui_elements()
         for key, ui_object in ui_elements.items():
-            if hasattr(ui_object, "panel"):
+            if hasattr(ui_object, "render_area"):
                 if ui_object.panel.rect.collidepoint(mouse_pos):
                     colliding_panel = ui_object.panel
 
@@ -98,7 +98,7 @@ class MouseMethods:
 
         ui_elements = self.manager.Element.get_ui_elements()
         for key, ui_object in ui_elements.items():
-            if hasattr(ui_object, "panel"):
+            if hasattr(ui_object, "render_area"):
                 if ui_object.panel.rect.collidepoint(mouse_pos):
                     ui_element_type = key
 

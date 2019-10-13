@@ -4,7 +4,6 @@ from enum import Enum, auto
 TILE_SIZE = 64
 ICON_IN_TEXT_SIZE = 16
 
-
 class VisualInfo:
     """
     Constant info about visual aspects such as resolution and frame rate
@@ -22,6 +21,13 @@ class FOVInfo:
     """
     LIGHT_WALLS = True
     FOV_ALGORITHM = 0
+
+class RenderOrder(Enum):
+    BACKGROUND = 0
+    TERRAIN = 1
+    ENTITY = 2
+    ASPECT = 3
+    TEXT = 99
 
 
 class GameStates(Enum):

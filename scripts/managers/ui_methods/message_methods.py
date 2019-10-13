@@ -94,7 +94,7 @@ class MessageMethods:
 
     def line_wrap_message(self, message, font, max_width):
         """
-        Break a message into lines based on panel width
+        Break a message into lines based on render_area width
 
         Args:
             font (pygame.font):

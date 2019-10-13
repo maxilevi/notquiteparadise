@@ -1,8 +1,8 @@
 
-from scripts.ui_elements.templates.panel import Panel
+from scripts.ui_elements.templates.render_area import RenderArea
 
 
-class SkillContainer(Panel):
+class SkillContainer(RenderArea):
     def __init__(self, x, y, width, height, background_colour, border_size, border_colour, skill_icon, skill_number):
         super().__init__(x, y, width, height, background_colour, border_size, border_colour)
 

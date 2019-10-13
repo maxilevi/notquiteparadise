@@ -1,9 +1,12 @@
+
 import logging
-from typing import Tuple
 
 import pygame
+from typing import Tuple
 
-from scripts.core.constants import UIElementTypes, SkillShapes, VisualInfo, TILE_SIZE
+import pyglet
+
+from scripts.core.constants import UIElementTypes, SkillShapes, VisualInfo, TILE_SIZE, RenderOrder
 from scripts.global_singletons.data_library import library
 from scripts.ui_elements.camera import Camera
 from scripts.ui_elements.entity_info import SelectedEntityInfo
@@ -26,7 +29,6 @@ class ElementMethods:
         self.manager = manager  # type: UIManager
 
         self.elements = {}  # list of all init'd ui elements
-
 
     def init_message_log(self):
         """
@@ -90,7 +92,7 @@ class ElementMethods:
 
         for key, element in self.elements.items():
             if element.is_visible:
-                element.new_draw()
+                element.draw()
 
     def set_selected_entity(self, entity):
         """
@@ -235,43 +237,98 @@ class ElementMethods:
         """
         Get info from the turn_manager and update the entity queue to be displayed
         """
-        # TODO - convert to a set and set via en event
         entity_queue = self.get_ui_element(UIElementTypes.ENTITY_QUEUE)
 
-        # clear current queue
-        entity_queue.entity_queue.clear()
-
         counter = 0
+        entities_to_draw = []
 
         # loop entities in turn queue, up to max to show
         from scripts.global_singletons.managers import turn_manager
         for entity, time in turn_manager.turn_queue.items():
             if counter < entity_queue.max_entities_to_show:
-                icon = entity.icon
-
-                # catch any images not the right size and resize them
-                if icon.get_size() != (entity_queue.entity_icon_size, entity_queue.entity_icon_size):
-                    icon = pygame.transform.smoothscale(icon, (entity_queue.entity_icon_size,
-                        entity_queue.entity_icon_size))
-
-                entity_queue.entity_queue.append((icon, entity.name))
+                entities_to_draw.append(entity)
 
                 counter += 1
 
             else:
                 break
 
+        self.set_entities_in_entity_queue(entities_to_draw)
+
+    def set_entities_in_entity_queue(self, entities_to_draw):
+        """
+        Set the entities to draw in the entity queue.
+
+        Args:
+            entities_to_draw ():
+        """
+        entity_queue = self.get_ui_element(UIElementTypes.ENTITY_QUEUE)
+        render_area = entity_queue.render_area
+        size_x = entity_queue.entity_size_x
+        size_y = entity_queue.entity_size_y
+        gap = entity_queue.gap_between_entities
+
+        # clear current queue
+        entity_queue.entities_to_draw.clear()
+        entity_queue.entities_to_draw = entities_to_draw
+
+        # starting draw positions
+        draw_x = int((entity_queue.render_area.width / 4) - 5)
+        draw_y = -size_y
+
+        for entity in entities_to_draw:
+            # add entity icon
+            render_area.add_image(entity.icon, draw_x, draw_y, size_x, size_y)
+
+            # add name
+            render_area.add_text(entity.name, draw_x, draw_y)
+
+            # increment draw position
+            draw_y -= size_y + gap
+
     def set_tiles_in_camera(self, tiles):
         """
-        Set the tiles to be drawn by the camera based on the camera size.
+        Set the tiles to be drawn by the camera.
 
         Args:
             tiles (list[Tile]): all of the tiles to draw.
         """
         camera = self.get_ui_element(UIElementTypes.CAMERA)
 
+        # update tile list
         camera.tiles_to_draw = tiles
-        camera.update_panel_sprites()
+
+        # clear previous sprites
+        camera.render_area.sprites = []
+        camera.render_area.batch = pyglet.graphics.Batch()
+
+        tiles = camera.tiles_to_draw
+        height = camera.height
+        render_area = camera.render_area
+        y_pos = height
+        x_pos = 0
+
+        for x in range(0, len(tiles)):
+            tile = tiles[x]
+
+            if y_pos <= 0:
+                y_pos = height
+                x_pos += 1
+
+            draw_x = x_pos * TILE_SIZE
+            draw_y = y_pos * TILE_SIZE
+
+            if tile.terrain:
+                render_area.add_image(tile.terrain.sprite, draw_x, draw_y, TILE_SIZE, TILE_SIZE, RenderOrder.TERRAIN)
+
+            if tile.entity:
+                render_area.add_image(tile.entity.icon, draw_x, draw_y, TILE_SIZE, TILE_SIZE, RenderOrder.ENTITY)
+
+            if tile.aspects:
+                for key, aspect in tile.aspects.items():
+                    render_area.add_image(aspect.sprite, draw_x, draw_y, TILE_SIZE, TILE_SIZE, RenderOrder.ASPECT)
+
+            y_pos -= 1
 
     def is_target_pos_in_camera_edge(self, target_pos: Tuple):
         """
@@ -366,13 +423,13 @@ class ElementMethods:
         else:
             return False
 
-    def move_camera(self, move_x, move_y):
+    def move_camera(self, move_x: int, move_y: int):
         """
         Increment camera's drawn tiles in the given direction. N.B. Physical position on screen does not change.
 
         Args:
-            move_x ():
-            move_y ():
+            move_x (): number of tiles to move the x
+            move_y (): number of tiles to move the y
         """
         camera = self.get_ui_element(UIElementTypes.CAMERA)
 
@@ -398,3 +455,4 @@ class ElementMethods:
         # use 0,0 to stop the camera double jumping due to converting back and forth from world and physical space
         tiles = world_manager.Map.get_tiles(0, 0, coords)
         self.set_tiles_in_camera(tiles)
+

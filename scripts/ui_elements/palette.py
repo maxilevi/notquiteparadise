@@ -69,7 +69,7 @@ class Palette:
 
     class EntityInfoPalette:
         """
-        The palette for the entity info panel
+        The palette for the entity info render_area
         """
         def __init__(self):
             colour = Colour()

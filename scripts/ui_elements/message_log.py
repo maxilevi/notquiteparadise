@@ -7,7 +7,7 @@ from scripts.core.fonts import Font
 from scripts.global_singletons.event_hub import publisher
 from scripts.ui_elements.colours import Colour
 from scripts.ui_elements.palette import Palette
-from scripts.ui_elements.templates.panel import Panel
+from scripts.ui_elements.templates.render_area import RenderArea
 
 
 class MessageLog:
@@ -30,7 +30,7 @@ class MessageLog:
         self.is_dirty = True
         self.is_visible = False
 
-        # panel info
+        # render_area info
         panel_width = int((VisualInfo.BASE_WINDOW_WIDTH / 4) * 1)
         panel_height = int(VisualInfo.BASE_WINDOW_HEIGHT / 2)
         panel_x = VisualInfo.BASE_WINDOW_WIDTH - panel_width
@@ -41,8 +41,8 @@ class MessageLog:
         palette = ui_manager.Palette.message_log
         panel_background_colour = palette.background
         panel_border_colour = palette.border
-        self.panel = Panel(panel_x, panel_y, panel_width, panel_height, panel_background_colour, panel_border,
-                           panel_border_colour)
+        self.panel = RenderArea(panel_x, panel_y, panel_width, panel_height, panel_background_colour, panel_border,
+                                panel_border_colour)
 
         # log info
         self.edge_size = 1
@@ -64,7 +64,7 @@ class MessageLog:
         # get the surface to draw to
         panel_surface = self.panel.surface
 
-        # panel background
+        # render_area background
         self.panel.draw_background()
 
         # init info for message render
@@ -86,13 +86,13 @@ class MessageLog:
             # update  line count
             line_count += 1
 
-            # pull each surface from each line_list and render to the panel surface
+            # pull each surface from each line_list and render to the render_area surface
             for message in line_list:
                 panel_surface.blit(message, (msg_x + x_offset, adjusted_y))
                 message_width = message.get_width()
                 x_offset += message_width + 2  # 2 for space between words
 
-        # panel border
+        # render_area border
         self.panel.draw_border()
         surface.blit(self.panel.surface, (self.panel.x, self.panel.y))
 

@@ -6,7 +6,7 @@
 # from scripts.ui_elements.palette import Palette
 # from scripts.core.constants import MessageEventTypes, VisualInfo
 # from scripts.core.fonts import Font
-# from scripts.ui_elements.templates.panel import Panel
+# from scripts.ui_elements.templates.render_area import RenderArea
 #
 #
 # class OLD_MessageLog:
@@ -45,7 +45,7 @@
 #         self.seconds_before_tooltip = 0.2
 #         self.seconds_before_extended_text = 1
 #
-#         # panel info
+#         # render_area info
 #         panel_width = int((VisualInfo.BASE_WINDOW_WIDTH / 4) * 1)
 #         panel_height = int(VisualInfo.BASE_WINDOW_HEIGHT / 2)
 #         panel_x = VisualInfo.BASE_WINDOW_WIDTH - panel_width
@@ -53,10 +53,10 @@
 #         panel_border = 2
 #         panel_background_colour = self.palette.background
 #         panel_border_colour = self.palette.border
-#         self.panel = Panel(panel_x, panel_y, panel_width, panel_height, panel_background_colour, panel_border,
+#         self.render_area = RenderArea(panel_x, panel_y, panel_width, panel_height, panel_background_colour, panel_border,
 #                            panel_border_colour)
 #
-#         # set panel to be rendered
+#         # set render_area to be rendered
 #
 #         # log info
 #         self.edge_size = 1
@@ -75,10 +75,10 @@
 #             surface(Surface): Main surface to draw to.
 #         """
 #         # get the surface to draw to
-#         panel_surface = self.panel.surface
+#         panel_surface = self.render_area.surface
 #
-#         # panel background
-#         self.panel.draw_background()
+#         # render_area background
+#         self.render_area.draw_background()
 #
 #         # show only as many message_list as we can or have
 #         messages_to_show = min(len(self.message_list), self.number_of_messages_to_show)
@@ -157,9 +157,9 @@
 #         # no longer dirty # TODO - uncomment when able to setup message log is dirty
 #         # self.is_dirty = False
 #
-#         # panel border
-#         self.panel.draw_border()
-#         surface.blit(self.panel.surface, (self.panel.x, self.panel.y))
+#         # render_area border
+#         self.render_area.draw_border()
+#         surface.blit(self.render_area.surface, (self.render_area.x, self.render_area.y))
 #
 #     def draw_tooltips(self, surface):
 #         """
@@ -335,8 +335,8 @@
 #                 text_rect = self.font.render(tooltip_text, self.colour.white)[1]
 #
 #                 # move tooltip_rect to the place in the message_log
-#                 text_rect.x = text_x + self.panel.x
-#                 text_rect.y = text_y + self.panel.y - (text_rect.height * 1.5)
+#                 text_rect.x = text_x + self.render_area.x
+#                 text_rect.y = text_y + self.render_area.y - (text_rect.height * 1.5)
 #
 #                 # is it time for the extended text?
 #                 if seconds_hovering > self.seconds_before_extended_text:
@@ -346,8 +346,8 @@
 #                     extended_text_rect = self.font.render(extended_tooltip_text, self.colour.white)[1]
 #
 #                     # move tooltip_rect to the place in the message_log, adjusting to be below first tooltip
-#                     extended_text_x = text_x + self.panel.x
-#                     extended_text_y = text_y + (font_size / 2) + self.panel.y
+#                     extended_text_x = text_x + self.render_area.x
+#                     extended_text_y = text_y + (font_size / 2) + self.render_area.y
 #
 #                     # resize the original rect to encompass both tooltips
 #                     width_of_widest_rect = max(text_rect.width, extended_text_rect.width)

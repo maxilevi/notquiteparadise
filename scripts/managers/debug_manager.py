@@ -90,7 +90,7 @@ class DebugManager:
             current_rect = ""
 
             for key, ui_object in ui_manager.visible_elements.items():
-                if hasattr(ui_object, "panel"):
+                if hasattr(ui_object, "render_area"):
                     if ui_object.panel.rect.collidepoint(pos):
                         offset_x = ui_object.panel.x
                         offset_y = ui_object.panel.y
