@@ -7,7 +7,7 @@ import pygame
 import pyglet
 from pyglet.window import FPSDisplay
 
-from scripts.core.constants import GameStates
+from scripts.core.constants import GameStates, UIElementTypes
 from scripts.global_singletons.managers import world_manager, game_manager, turn_manager, ui_manager, debug_manager, \
     input_manager
 from scripts.global_singletons.event_hub import event_hub
@@ -47,13 +47,15 @@ def main():
     profiler.enable()
 
     # initialise the game
+    ui_manager.Element.init_camera()
+    ui_manager.Element.set_element_visibility(UIElementTypes.CAMERA, True)
     #initialise_ui_elements()
-    #initialise_event_handlers()
-    #initialise_game()
+    initialise_event_handlers()
+    initialise_game()
+    ui_manager.Element.update_cameras_tiles_to_draw()
 
     # run the game
     #game_loop()
-
 
     window = ui_manager.Display.get_window()
     fps_display = FPSDisplay(window)

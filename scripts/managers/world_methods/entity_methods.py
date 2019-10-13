@@ -282,12 +282,12 @@ class EntityMethods:
 
         actor_name = actor_name
 
-        sprite = pygame.image.load("assets/actor/" + actor_template.spritesheet).convert_alpha()
-        icon = pygame.image.load("assets/actor/" + actor_template.icon).convert_alpha()
+        sprite = ""# pygame.image.load("assets/actor/" + actor_template.spritesheet).convert_alpha()
+        icon = "" # pygame.image.load("assets/actor/" + actor_template.icon).convert_alpha()
 
         # catch any images not resized and resize them
-        if icon.get_size() != (TILE_SIZE, TILE_SIZE):
-            icon = pygame.transform.smoothscale(icon, (TILE_SIZE, TILE_SIZE))
+        # if icon.get_size() != (TILE_SIZE, TILE_SIZE):
+        #     icon = pygame.transform.smoothscale(icon, (TILE_SIZE, TILE_SIZE))
 
         combatant_component = Combatant()
         savvy_component = Savvy(actor_template.savvy_component)

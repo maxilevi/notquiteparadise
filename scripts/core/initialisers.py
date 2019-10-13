@@ -63,25 +63,25 @@ def initialise_game():
     player = world_manager.Entity.get_player()
     world_manager.FOV.recompute_player_fov(player.x, player.y, player.sight_range)
 
-    world_manager.Entity.create_actor_entity(0, 3, "goblinn_hand", "steve")
-    world_manager.Entity.create_actor_entity(1, 4, "goblinn_hand", "bob")
-    world_manager.Entity.create_actor_entity(2, 3, "goblinn_hand", "estaban")
-    world_manager.God.create_god("the small gods")
-
-    # TODO - remove when skill learning is in
-    # publisher.publish(LearnEvent(world_manager.player, "cleromancer", "basic attack"))
-    # publisher.publish(LearnEvent(world_manager.player, "cleromancer", "throw dice"))
-    # publisher.publish(LearnEvent(world_manager.player, "cleromancer", "bring down the mountain"))
-    # publisher.publish(LearnEvent(world_manager.player, "cleromancer", "burn the deck"))
-    publisher.publish(LearnEvent(world_manager.player, "Fungechist", "Flail"))
-    publisher.publish(LearnEvent(world_manager.player, "Fungechist", "Eye-watering Mistake"))
-    publisher.publish(LearnEvent(world_manager.player, "Fungechist", "Fractious Fungi"))
-
+    # world_manager.Entity.create_actor_entity(0, 3, "goblinn_hand", "steve")
+    # world_manager.Entity.create_actor_entity(1, 4, "goblinn_hand", "bob")
+    # world_manager.Entity.create_actor_entity(2, 3, "goblinn_hand", "estaban")
+    # world_manager.God.create_god("the small gods")
+    #
+    # # TODO - remove when skill learning is in
+    # # publisher.publish(LearnEvent(world_manager.player, "cleromancer", "basic attack"))
+    # # publisher.publish(LearnEvent(world_manager.player, "cleromancer", "throw dice"))
+    # # publisher.publish(LearnEvent(world_manager.player, "cleromancer", "bring down the mountain"))
+    # # publisher.publish(LearnEvent(world_manager.player, "cleromancer", "burn the deck"))
+    # publisher.publish(LearnEvent(world_manager.player, "Fungechist", "Flail"))
+    # publisher.publish(LearnEvent(world_manager.player, "Fungechist", "Eye-watering Mistake"))
+    # publisher.publish(LearnEvent(world_manager.player, "Fungechist", "Fractious Fungi"))
+    #
     publisher.publish(ChangeGameStateEvent(GameStates.GAME_INITIALISING))
     turn_manager.turn_holder = world_manager.player
-
-    publisher.publish(MessageEvent(MessageEventTypes.BASIC, "Welcome to #col.info Not #col.info "
-                                                            "Quite  #col.info Paradise. "))
+    #
+    # publisher.publish(MessageEvent(MessageEventTypes.BASIC, "Welcome to #col.info Not #col.info "
+    #                                                         "Quite  #col.info Paradise. "))
 
 
 def initialise_event_handlers():

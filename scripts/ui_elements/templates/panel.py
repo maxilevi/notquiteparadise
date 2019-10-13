@@ -1,6 +1,8 @@
 import pygame
 import pyglet
 
+from scripts.core.constants import TILE_SIZE
+
 
 class Panel:
     """
@@ -49,20 +51,25 @@ class Panel:
 
 
 class RenderArea:
-    def __init__(self, x, y):
+    def __init__(self, x, y, width, height):
         self.x = x
         self.y = y
+        self.width = width
+        self.height = height
         self.sprites = []
+        self.batch = pyglet.graphics.Batch()
 
-    def add(self, image, x, y):
-        self.sprites.append(pyglet.sprite.Sprite(image, x=self.x + x, y=self.y + y))
+    def add(self, image, x, y, width=0, height=0):
+        # create sprite
+        new_sprite = pyglet.sprite.Sprite(image, x=self.x + x, y=self.y + y, batch=self.batch)
 
-#  HAS BATCH
-# class RenderArea:
-#     def __init__(self, x, y):
-#         self.x = x
-#         self.y = y
-#         self.sprites = []
-#
-#     def add(self, image, x, y, batch):
-#         self.sprites.append(pyglet.sprite.Sprite(image, x=self.x + x, self.y + y, batch=batch))
+        # resize to specified sizes
+        if width > 0:
+            scale_x = (width / image.height)
+            new_sprite.update(scale_x=scale_x)
+        if height > 0:
+            scale_y = (height / image.width)
+            new_sprite.update(scale_y=scale_y)
+
+        # add to list
+        self.sprites.append(new_sprite)

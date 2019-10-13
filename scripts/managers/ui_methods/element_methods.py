@@ -88,23 +88,23 @@ class ElementMethods:
         """
         # TODO - add handling for dirty
 
-        import pyglet
-        label = pyglet.text.Label(text="Working")
-        label.draw()
+        for key, element in self.elements.items():
+            if element.is_visible:
+                element.new_draw()
 
-        panel_width = int((VisualInfo.BASE_WINDOW_WIDTH / 4) * 3)
-        panel_height = int(VisualInfo.BASE_WINDOW_HEIGHT / 2)
-        from scripts.ui_elements.templates.panel import RenderArea
-        panel = RenderArea(0, 0)
-        image = pyglet.resource.image("actor/placeholder/Mobs_skeleton_06.png")
-        image.scale = ((TILE_SIZE / image.height), (TILE_SIZE / image.width))
-        image.width = TILE_SIZE
-        image.height = TILE_SIZE
-
-        panel.add(image, 0, 0)
-
-        for sprite in panel.sprites:
-            sprite.draw()
+        # import pyglet
+        # label = pyglet.text.Label(text="Working")
+        # label.draw()
+        #
+        # panel_width = int((VisualInfo.BASE_WINDOW_WIDTH / 4) * 3)
+        # panel_height = VisualInfo.BASE_WINDOW_HEIGHT#int(VisualInfo.BASE_WINDOW_HEIGHT / 2)
+        # from scripts.ui_elements.templates.panel import RenderArea
+        # panel = RenderArea(0, 0, panel_width, panel_height)
+        # image = pyglet.resource.image("actor/placeholder/Mobs_skeleton_06.png")
+        #
+        # panel.add(image, 0, 0, TILE_SIZE, TILE_SIZE)
+        #
+        # panel.batch.draw()
 
 
         # surface = self.manager.Display.get_main_surface()
@@ -300,6 +300,7 @@ class ElementMethods:
         camera = self.get_ui_element(UIElementTypes.CAMERA)
 
         camera.tiles_to_draw = tiles
+        camera.update_panel_sprites()
 
     def is_target_pos_in_camera_edge(self, target_pos: Tuple):
         """

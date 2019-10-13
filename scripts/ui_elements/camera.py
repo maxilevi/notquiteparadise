@@ -1,6 +1,6 @@
 from operator import mod
 
-from scripts.ui_elements.templates.panel import Panel
+from scripts.ui_elements.templates.panel import Panel, RenderArea
 from scripts.core.constants import VisualInfo, TILE_SIZE
 from scripts.ui_elements.colours import Colour
 from scripts.ui_elements.palette import Palette
@@ -30,8 +30,42 @@ class Camera:
         panel_border = 2
         panel_background_colour = Palette().game_map.background
         panel_border_colour = Palette().game_map.border
-        self.panel = Panel(panel_x, panel_y, panel_width, panel_height, panel_background_colour, panel_border,
-                           panel_border_colour)
+        # self.panel = Panel(panel_x, panel_y, panel_width, panel_height, panel_background_colour, panel_border,
+        #                    panel_border_colour)
+
+        self.panel = RenderArea(panel_x, panel_y, panel_width, panel_height)
+
+    def new_draw(self):
+        self.panel.batch.draw()
+
+    def update_panel_sprites(self):
+        # clear previous
+        self.panel.sprites = []
+        import pyglet
+        self.panel.batch = pyglet.graphics.Batch()
+
+        tiles = self.tiles_to_draw
+        y_pos = self.height
+        x_pos = 0
+
+        for x in range(0, len(tiles)):
+            tile = tiles[x]
+
+            if y_pos <= 0:
+                y_pos = self.height
+                x_pos += 1
+
+            draw_x = x_pos * TILE_SIZE
+            draw_y = y_pos * TILE_SIZE
+
+            if tile.is_wall:
+                terrain_image = pyglet.resource.image("world/placeholder/_testWall.png")
+                self.panel.add(terrain_image, draw_x, draw_y, TILE_SIZE, TILE_SIZE)
+            elif tile.is_floor:
+                terrain_image = pyglet.resource.image("world/placeholder/_test.png")
+                self.panel.add(terrain_image, draw_x, draw_y, TILE_SIZE, TILE_SIZE)
+
+            y_pos -= 1
 
     def draw(self, surface):
         """
@@ -81,74 +115,4 @@ class Camera:
                     self.panel.surface.blit(aspect.sprite, draw_position)
 
             y_pos += 1
-
-
-# Camera class from pygame tutorial
-# class obj_Camera:
-#
-#     def __init__(self):
-#
-#         self.width = constants.CAMERA_WIDTH
-#         self.height = constants.CAMERA_HEIGHT
-#         self.x, self.y = (0, 0)
-#
-#     @property
-#     def rectangle(self):
-#
-#         pos_rect = pygame.Rect((0, 0), (constants.CAMERA_WIDTH,
-#                                         constants.CAMERA_HEIGHT))
-#
-#         pos_rect.center = (self.x, self.y)
-#
-#         return pos_rect
-#
-#     @property
-#     def map_address(self):
-#
-#         map_x = self.x / constants.CELL_WIDTH
-#         map_y = self.y / constants.CELL_HEIGHT
-#
-#         return (map_x, map_y)
-#
-#     def update(self):
-#
-#         target_x = PLAYER.x * constants.CELL_WIDTH + (constants.CELL_WIDTH/2)
-#         target_y = PLAYER.y * constants.CELL_HEIGHT + (constants.CELL_HEIGHT/2)
-#
-#         distance_x, distance_y = self.map_dist((target_x, target_y))
-#
-#         self.x += int(distance_x)
-#         self.y += int(distance_y)
-#
-#     def win_to_map(self, coords):
-#
-#         tar_x, tar_y = coords
-#
-#         #convert window coords to distace from camera
-#         cam_d_x, cam_d_y = self.cam_dist((tar_x, tar_y))
-#
-#         #distance from cam -> map coord
-#         map_p_x = self.x + cam_d_x
-#         map_p_y = self.y + cam_d_y
-#
-#         return((map_p_x, map_p_y))
-#
-#
-#     def map_dist(self, coords):
-#
-#         new_x, new_y = coords
-#
-#         dist_x = new_x - self.x
-#         dist_y = new_y - self.y
-#
-#         return (dist_x, dist_y)
-#
-#     def cam_dist(self, coords):
-#
-#         win_x, win_y = coords
-#
-#         dist_x = win_x - (self.width / 2)
-#         dist_y = win_y - (self.height / 2)
-#
-#         return (dist_x, dist_y)
 
