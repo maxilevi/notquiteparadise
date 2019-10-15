@@ -11,5 +11,5 @@ setup(
     license='',
     author='Gabriel',
     author_email='',
-    description='', install_requires=['pygame', 'pyglet']
+    description='', install_requires=['pygame', 'pyglet', 'glooey']
 )

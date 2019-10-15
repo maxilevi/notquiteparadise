@@ -3,16 +3,16 @@ import cProfile
 import io
 import logging
 import pstats
+import glooey
 import pygame
 import pyglet
-from pyglet.window import FPSDisplay
 
-from scripts.core.constants import GameStates, UIElementTypes
+from pyglet.window import FPSDisplay
+from scripts.core.constants import GameStates
 from scripts.global_singletons.managers import world_manager, game_manager, turn_manager, ui_manager, debug_manager, \
     input_manager
 from scripts.global_singletons.event_hub import event_hub
-from scripts.core.initialisers import initialise_game, initialise_event_handlers, initialise_logging, \
-    initialise_ui_elements
+from scripts.core.initialisers import initialise_game, initialise_event_handlers, initialise_logging
 
 
 # Project Wide to do list...
@@ -35,6 +35,7 @@ from scripts.core.initialisers import initialise_game, initialise_event_handlers
 # TODO - stats json needs icons assigning
 
 
+
 def main():
     """
     The container for the game initialisation and game loop
@@ -49,13 +50,10 @@ def main():
 
     # **** setting up during migration
     ui_manager.Element.init_camera()
-    ui_manager.Element.set_element_visibility(UIElementTypes.CAMERA, True)
     ui_manager.Element.init_entity_queue()
-    ui_manager.Element.set_element_visibility(UIElementTypes.ENTITY_QUEUE, True)
     ui_manager.Element.init_skill_bar()
-    ui_manager.Element.set_element_visibility(UIElementTypes.SKILL_BAR, True)
     ui_manager.Element.init_message_log()
-    ui_manager.Element.set_element_visibility(UIElementTypes.MESSAGE_LOG, True)
+
 
     # initialise the game
     #initialise_ui_elements()
@@ -74,17 +72,64 @@ def main():
     window = ui_manager.Display.get_window()
     fps_display = FPSDisplay(window)
 
+    # glooey gui
+    batch = pyglet.graphics.Batch()
+    group = pyglet.graphics.OrderedGroup(98)
+    gui = glooey.Gui(window=window, batch=batch, group=group)
+
+    # box with buttons
+    # vbox = glooey.VBox()
+    # vbox.alignment = "center"
+    # from scripts.ui_elements.message_log import MyTitle
+    # title = MyTitle("What... question")
+    # vbox.add(title)
+    #from scripts.ui_elements.message_log import MyButton
+    # buttons = [MyButton("BUtton 1","Ans1"), MyButton("button2", "Ans2")]
+    #
+    # for button in buttons:
+    #     vbox.add(button)
+
+    # gui.add(vbox)
+
+    #print(f"Window:{window.width},{window.height}; GUI:{gui.width, gui.height}")
+    window_width, window_height = 1280, 720
+    board = glooey.Board()
+    board.size_hint = window_width, window_height
+    #board.alignment = "fill"
+    gui.add(board)
+
+    from scripts.ui_elements.templates.menu_scroll_box import MenuScrollBox
+    scrollbox = MenuScrollBox()
+    scroll_width, scroll_height = 400, 200
+    scrollbox.size_hint = scroll_width, scroll_height
+    board.add(scrollbox, right=window_width, bottom=0)
+
+    text = "test"
+    label = glooey.Label(text, line_wrap=300)
+    label.alignment = "center"
+    scrollbox.add(label)
+
+
+
+
+
+    # button with click
+    # button = MyButton("Click here!", "Working")
+    # gui.add(button)
+
+
     # Set up window events
     @window.event
     def on_draw():
         window.clear()
         ui_manager.Element.draw_visible_elements()
         fps_display.draw()  # TODO - move to debug
+        batch.draw()  # TODO - remove after testing glooey
 
-    @window.event
-    def on_mouse_press(x, y, button, modifiers):
-        print(f"{button} pressed at ({x},{y})")
-        # input_manager
+    # @window.event
+    # def on_mouse_press(x, y, button, modifiers):
+    #     print(f"{button} pressed at ({x},{y})")
+    #     # input_manager
 
     @window.event
     def on_key_press(symbol, modifiers):
@@ -96,9 +141,9 @@ def main():
         pass
         # input manager
 
-    @window.event
-    def on_mouse_scroll(x, y, scroll_x, scroll_y):
-        print(f"Mouse scrolled {scroll_y} click.")
+    # @window.event
+    # def on_mouse_scroll(x, y, scroll_x, scroll_y):
+    #     print(f"Mouse scrolled {scroll_y} click.")
 
     # set up the scheduled update
     def update(dt):

@@ -1,7 +1,7 @@
 
 import pyglet
 from typing import Tuple
-from scripts.core.constants import VisualInfo
+from scripts.core.constants import VisualInfo, ROOT_DIR
 
 
 class DisplayMethods:
@@ -42,9 +42,18 @@ class DisplayMethods:
         return window
 
     def init_resource_config(self):
-        pyglet.resource.path = ["C:/Users/Gabriel/Documents/NotQuiteParadise/assets",
-            "C:/Users/Gabriel/Documents/NotQuiteParadise/assets/actor"]
+
+        pyglet.resource.path = [
+            str(ROOT_DIR / "assets")
+        ]
+
         pyglet.resource.reindex()
+
+        import os
+        # print(pyglet.resource._default_loader._index.keys()) # to see all listed assets
+        # print(f"Root:{ROOT_DIR}")
+        # print(f"Curr:{os.getcwd()}")
+        # print(f"Pyg path:{pyglet.resource.path}")
 
     def get_screen_scaling_mod(self):
         """

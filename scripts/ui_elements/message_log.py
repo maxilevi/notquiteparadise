@@ -2,6 +2,10 @@
 import logging
 
 from typing import Dict, Tuple
+
+import glooey
+import pyglet
+
 from scripts.core.constants import MessageEventTypes, VisualInfo
 from scripts.core.fonts import Font
 from scripts.global_singletons.event_hub import publisher
@@ -49,16 +53,20 @@ class MessageLog:
                                                                                      self.gap_between_lines))
 
         # *** testing
-        # Use Glooey instead?
         import pyglet
-        location = pyglet.resource.location("actor_template.png")
-        html = "<font color=white> This is some text that goes on for a very long time and needs to be wrapped " \
-               "because it is so big, (oh, here's an image!) " \
-               "<img src='actor_template.png' height='12'/>" \
-               "otherwise it wont all show in the window."
-        label = pyglet.text.HTMLLabel(x=render_x, y=render_y, text=html, width=render_width, multiline=True,
-            anchor_y='center', location=location)
-        self.text = label
+        from pathlib import Path
+        location = pyglet.resource.image("actor/actor_template.png")
+        # html = "<font color=white> This is some text that goes on for a very long time and needs to be wrapped " \
+        #        "because it is so big, (oh, here's an image!) " \
+        #        "<img src='actor_template.png' height='12'/>" \
+        #        "otherwise it wont all show in the window."
+        # label = pyglet.text.HTMLLabel(x=render_x, y=render_y, text=html, width=render_width, multiline=True,
+        #     anchor_y='center', location=location)
+        self.text = "" # label
+
+
+
+
 
         logging.debug(f"MessageLog initialised.")
 
@@ -94,4 +102,36 @@ class MessageLog:
         #         message_width = message.get_width()
         #         x_offset += message_width + 2  # 2 for space between words
 
+
+# # *** Glooey
+# class MyLabel(glooey.Label):
+#     custom_color = '#babdb6'
+#     custom_font_size = 10
+#     custom_alignment = 'center'
+#
+# class MyTitle(glooey.Label):
+#     custom_color = '#eeeeec'
+#     custom_font_size = 12
+#     custom_alignment = 'center'
+#     custom_bold = True
+#
+# class MyButton(glooey.Button):
+#     Foreground = MyLabel
+#     custom_alignment = 'fill'
+#
+#     class Base(glooey.Background):
+#         custom_color = '#204a87'
+#
+#     class Over(glooey.Background):
+#         custom_color = '#3465a4'
+#
+#     class Down(glooey.Background):
+#         custom_color = '#729fcff'
+#
+#     def __init__(self, text, response):
+#         super().__init__(text)
+#         self.response = response
+#
+#     def on_click(self, widget):
+#         print(self.response)
 

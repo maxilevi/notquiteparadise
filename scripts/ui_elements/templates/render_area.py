@@ -39,7 +39,7 @@ class RenderArea:
         """
         # set the order
         if render_order == RenderOrder.TEXT:
-            group = 98
+            group = RenderOrder.TEXT.value - 1
         else:
             group = render_order.value
 

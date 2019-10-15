@@ -1,5 +1,7 @@
 from enum import Enum, auto
+from pathlib import Path
 
+ROOT_DIR = Path(__file__).parent.parent.parent
 TILE_SIZE = 64
 ICON_IN_TEXT_SIZE = 16
 
