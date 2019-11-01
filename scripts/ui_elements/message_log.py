@@ -62,7 +62,7 @@ class MessageLog:
         #        "otherwise it wont all show in the window."
         # label = pyglet.text.HTMLLabel(x=render_x, y=render_y, text=html, width=render_width, multiline=True,
         #     anchor_y='center', location=location)
-        self.text = "" # label
+        self.text = ""
 
 
 
@@ -74,7 +74,8 @@ class MessageLog:
         """
         Draw the message log and all included text and icons
         """
-        self.text.draw()
+        pass
+        #self.text.draw()
         #self.render_area.batch.draw()
 
 

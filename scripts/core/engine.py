@@ -77,6 +77,28 @@ def main():
     group = pyglet.graphics.OrderedGroup(98)
     gui = glooey.Gui(window=window, batch=batch, group=group)
 
+    window_width, window_height = 1280, 720
+    # win = pyglet.window.Window(window_width, window_height)
+    # gui = glooey.Gui(win)
+
+    board = glooey.Board()
+    # board.size_hint = window_width, window_height # tried this and fill
+    board.alignment = "fill"
+
+    from scripts.ui_elements.templates.menu_scroll_box import MenuScrollBox
+    scrollbox = MenuScrollBox()
+    scroll_width, scroll_height = 400, 200
+    scrollbox.size_hint = scroll_width, scroll_height
+
+    text = "test"
+    label = glooey.Label(text, line_wrap=400)
+    # label = glooey.LoremIpsum(line_wrap=400)
+    label.alignment = "center"
+
+    scrollbox.add(label)
+    board.add(scrollbox, right=window_width, bottom=0)
+    gui.add(board)
+
     # box with buttons
     # vbox = glooey.VBox()
     # vbox.alignment = "center"
@@ -91,23 +113,23 @@ def main():
 
     # gui.add(vbox)
 
-    #print(f"Window:{window.width},{window.height}; GUI:{gui.width, gui.height}")
-    window_width, window_height = 1280, 720
-    board = glooey.Board()
-    board.size_hint = window_width, window_height
-    #board.alignment = "fill"
-    gui.add(board)
-
-    from scripts.ui_elements.templates.menu_scroll_box import MenuScrollBox
-    scrollbox = MenuScrollBox()
-    scroll_width, scroll_height = 400, 200
-    scrollbox.size_hint = scroll_width, scroll_height
-    board.add(scrollbox, right=window_width, bottom=0)
-
-    text = "test"
-    label = glooey.Label(text, line_wrap=300)
-    label.alignment = "center"
-    scrollbox.add(label)
+    # #print(f"Window:{window.width},{window.height}; GUI:{gui.width, gui.height}")
+    # window_width, window_height = 1280, 720
+    # board = glooey.Board()
+    # board.size_hint = window_width, window_height
+    # #board.alignment = "fill"
+    # gui.add(board)
+    #
+    # from scripts.ui_elements.templates.menu_scroll_box import MenuScrollBox
+    # scrollbox = MenuScrollBox()
+    # scroll_width, scroll_height = 400, 200
+    # scrollbox.size_hint = scroll_width, scroll_height
+    # board.add(scrollbox, right=window_width, bottom=0)
+    #
+    # text = "test"
+    # label = glooey.Label(text, line_wrap=300)
+    # label.alignment = "center"
+    # scrollbox.add(label)
 
 
 
